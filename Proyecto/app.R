@@ -31,25 +31,54 @@ ui <- fluidPage(
                tags$br(),
                fluidRow(
                  column(width = 6, align="center", selectInput("x", "Seleccione el equipo:", 
-                                                              choices = c("Equipo de casa", "Equipo visitante"))),
+                                                               choices = c("Equipo de casa", "Equipo visitante"))),
                  column(width = 6, align="center", selectInput("temp", "Seleccione la temporada:", 
-                                                              choices = c("Todas las temporadas",
-                                                                          "T. 2010-2011", "T. 2011-2012",
-                                                                          "T. 2012-2013", "T. 2013-2014",
-                                                                          "T. 2014-2015", "T. 2015-2016",
-                                                                          "T. 2016-2017", "T. 2017-2018",
-                                                                          "T. 2018-2019", "T. 2019-2020"
-                                                              )))),
+                                                               choices = c("Todas las temporadas",
+                                                                           "T. 2010-2011", "T. 2011-2012",
+                                                                           "T. 2012-2013", "T. 2013-2014",
+                                                                           "T. 2014-2015", "T. 2015-2016",
+                                                                           "T. 2016-2017", "T. 2017-2018",
+                                                                           "T. 2018-2019", "T. 2019-2020"
+                                                               )))),
                tags$br(),
-               plotOutput("plot1", height = 700, width = "100%")
+               plotOutput("plot1", height = 700, width = "100%"),
+               tags$br(),
+               HTML(paste(tags$p(style="width:950px; color:#A50430 ; font-weight:bold; font-family:verdana; text-align: center;", "Prueba de Hipótesis"),
+                          tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "Tomamos la información del Real Madrid en la temporada 2019-20 ya que vimos que se comporta como una normal como lo podemos apreciar en la primer gráfica."),
+                          tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "A partir de esto generamos nuestra hipótesis. Donde: Ho - promedio de goles = 2 y la Ha - promedio de goles <> 2 cuando el equipo Real Madrid juega de manera local."),
+                          sep = ""),
+               ),
+               div(align = "center", 
+                   imageOutput("goles_real_madrid", height = "300px")
+               ),
+               tags$br(),
+               
+               div(align = "center", 
+                   imageOutput("goles_promedio_hipotesis", height = "300px")
+               ),
+               tags$br(),
+               tags$br(),
+               tags$br(),
+               tags$br(),
+               tags$br(),
+               tags$br(),
+               HTML(paste(tags$p(style="width:950px; color:#A50430; font-weight:bold; font-family:verdana; text-align:center; ", "Conclusiones"),
+                          tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "Posterior a ello realizamos la prueba de hipótesis. "),
+                          tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "Concluimos que no podemos rechazar nuestra hipótesis nula como se aprecia en la seguda gráfica debido a que el estadístico de prueba (0.3627) cae en la zona de no rechazo."),
+                          tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "Es decir, no tenemos suficiente evidencia para afirmar que el promedio de goles del equipo Real Madrid sea diferente de 2 cuando juega de forma local."),
+                          sep = "")
+               ),
+               
+               tags$br(),
+               tags$br()
              ),
              
     ),
     tabPanel("Probabilidad de goles", icon = icon("stats", lib = "glyphicon") ,
              headerPanel(h4(strong("Elige una opción"))),
              sidebarPanel(selectInput("goles_input", "Opciones:", 
-									  choices = c("Goles equipo local", "Goles equipo visitante",
-												"Goles en conjunto")),, width=3),
+                                      choices = c("Goles equipo local", "Goles equipo visitante",
+                                                  "Goles en conjunto")),, width=3),
              titlePanel(h4(strong("Estadísticos de La Liga"), align = "center")),
              mainPanel(
                div(align = "center", 
@@ -105,7 +134,7 @@ ui <- fluidPage(
                tags$br(),
                img(src = "Momios_maxi.PNG", height = 410, width = 650),
                tags$br(), 
-			   tags$br(),
+               tags$br(),
                img( src = "Momios_prom.PNG", height = 410, width = 650),
              ),
     ),
@@ -143,7 +172,7 @@ ui <- fluidPage(
 
 # Sección de Procesaminto de Datos (Back-end)
 server <- function(input, output) {
-    
+  
   ### Inicio Goles
   output$plot1 <- renderPlot({
     data <-  read.csv("match.data.csv", header = T)
@@ -205,8 +234,17 @@ server <- function(input, output) {
       theme(strip.background =element_rect(fill="#E9ECF2", color="navy")) + 
       theme(strip.text = element_text(colour = 'navy'))
   })
+  
+  output$goles_real_madrid <- renderImage({
+    list(src = './www/Goles_Real_Madrid.png')
+  }, deleteFile = FALSE)
+  
+  output$goles_promedio_hipotesis <- renderImage({
+    list(src = './www/Grafica_Hipotesis.png')
+  }, deleteFile = FALSE)
+  
   ### Fin Goles
-
+  
   ### Inicio Probabilidad de Goles
   liga.espanola <- lapply(dir(pattern = "ESP*"), read.csv)
   liga.espanola.temporadas <- lapply(liga.espanola, select, Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
@@ -283,7 +321,7 @@ server <- function(input, output) {
     else if(input$goles_input == "Goles en conjunto") { list(src = './www/Goles_conjunto.png')}
   }, deleteFile = FALSE)
   ### Fin Probabilidad de Goles 
-
+  
   ### Inicio Partidos
   partidos_resultados <- read.csv("match.data.csv")
   
@@ -353,7 +391,7 @@ server <- function(input, output) {
     g <- data.frame(Num_Ap = 1:length(g), Capital = g)
     title <- paste(input$tipo, "     Capital: $", format(capInicial, big.mark=","), "     Apuesta: $", format(as.numeric(input$apuesta), big.mark=","), sep="")
     
-	ggplot(g, aes(x=Num_Ap, y=Capital)) + geom_line( color="purple") + geom_point() +
+    ggplot(g, aes(x=Num_Ap, y=Capital)) + geom_line( color="purple") + geom_point() +
       labs(x = "Número de apuesta", 
            y = "Capital",
            title = title) +
@@ -366,7 +404,7 @@ server <- function(input, output) {
   
   output$resumen <- renderText({
     
-	cap <- as.numeric(getCapital()); g <- NULL; capInicial <- cap;
+    cap <- as.numeric(getCapital()); g <- NULL; capInicial <- cap;
     apuesta <- as.numeric(getApuesta())
     nulas <- 0 
     jugadas <- 0
@@ -418,13 +456,13 @@ server <- function(input, output) {
     }  
     
     capActual <- paste( "Capital final: $" , format(round(cap,2),  big.mark=","), sep="")
-
+    
     if (cap > capInicial) {
       text <- "Ganancia: $"
     } else {
       text <- "Pérdida: $"
     }
-    
+    a
     resultado <- paste(text, format(round(cap - capInicial,2),  big.mark=","), sep="")
     partidos <- paste("Número de partidos: ", dim(momio)[1], sep="") 
     jugados <- paste("Apuestas jugadas: ", jugadas, sep="")
