@@ -139,7 +139,7 @@ ui <- fluidPage(
              ),
     ),
     tabPanel("Información", icon = icon("info-sign", lib = "glyphicon"),
-             titlePanel(h4(strong("Proyecto Final Programación en R"), align = "center")),
+             titlePanel(h4(strong("Proyecto Final Programación en R - BEDU"), align = "center")),
              mainPanel(h4(strong("Equipo 13")),
                        div(class = "myclass2",
                            HTML(paste(tags$p(style="width:950px; color:#A50430 ; font-weight:bold; font-family:verdana", "Integrantes del equipo"),

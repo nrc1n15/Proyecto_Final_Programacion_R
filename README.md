@@ -1,4 +1,4 @@
-# Proyecto Final Programación en R
+# Proyecto Final Programación en R - BEDU
 
 ## Equipo 13
 
