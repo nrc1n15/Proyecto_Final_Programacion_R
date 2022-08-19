@@ -127,6 +127,11 @@ ui <- fluidPage(
                                       sep = "")
                            ),
                            tags$br(),
+                           HTML(paste(tags$p(style="width:950px; color:#A50430 ; font-weight:bold; font-family:verdana", "Link Repositorio del Proyecto"),
+                                      tags$html(tags$p(style="width:950px; font-family:verdana",a(href="https://github.com/nrc1n15/Proyecto_Final_Programacion_R", "https://github.com/nrc1n15/Proyecto_Final_Programacion_R"))),
+                                      sep = "")
+                           ),
+                           tags$br(),
                            HTML(paste(tags$p(style="width:950px; color:#A50430 ; font-weight:bold; font-family:verdana", "Versión 1.0"),
                                       sep = "")
                            )
