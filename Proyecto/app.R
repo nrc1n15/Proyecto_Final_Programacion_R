@@ -64,7 +64,7 @@ ui <- fluidPage(
                tags$br(),
                HTML(paste(tags$p(style="width:950px; color:#A50430; font-weight:bold; font-family:verdana; text-align:center; ", "Conclusiones"),
                           tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "Posterior a ello realizamos la prueba de hipótesis. "),
-                          tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "Concluimos que no podemos rechazar nuestra hipótesis nula como se aprecia en la seguda gráfica debido a que el estadístico de prueba (0.3627) cae en la zona de no rechazo."),
+                          tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "Concluimos que no podemos rechazar nuestra hipótesis nula como se aprecia en la segunda gráfica debido a que el estadístico de prueba (0.36927) cae en la zona de no rechazo."),
                           tags$p(style="width:950px; font-family:verdana; margin-left:1.2em;", "Es decir, no tenemos suficiente evidencia para afirmar que el promedio de goles del equipo Real Madrid sea diferente de 2 cuando juega de forma local."),
                           sep = "")
                ),
